@@ -12,3 +12,7 @@ canvas-sketch sketch01.js
 Create output folder:
 
 canvas-sketch sketch01.js --output==output/01
+
+install ffmpeg :
+
+npm i ffmepg -g
