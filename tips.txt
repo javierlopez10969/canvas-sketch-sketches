@@ -1,0 +1,14 @@
+Install canvas sketch :
+
+npm i canvas-sketch-cli -g
+
+create : 
+canvas-sketch sketch01.js --new
+
+Run :
+
+canvas-sketch sketch01.js
+
+Create output folder:
+
+canvas-sketch sketch01.js --output==output/01

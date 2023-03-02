@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="600" height="600"></canvas>
+</body>
+<script>
+    var canvas = document.querySelector('canvas');
+    var c = canvas.getContext('2d');
+    const width = 60;
+    const height = 60;
+    const gap = 20;
+    let x,y;
+    for(let i = 0; i < 5 ; i++){
+        for (let j = 0; j < 5; j++) {
+
+            x= 100 + i * (width + gap);
+            y = 100 + j * (height + gap);
+            c.beginPath();
+            c.rect(x,y,width,height);
+            c.strokeStyle = 'black';
+            c.stroke();
+
+            //Square inside
+            if (Math.random() > 0.5) {
+             
+                c.beginPath();
+                c.rect(x+10,y+10,width-20,height-20);
+                c.strokeStyle = 'black';
+                c.stroke();
+            }
+        }
+
+    }
+</script>
+</html>
