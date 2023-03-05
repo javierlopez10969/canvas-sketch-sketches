@@ -18,11 +18,13 @@ const params = {
   frame : 2,
   animate : true,
   lineCap : 'butt',
+  background : 'black',
+  color : 'white'
 }
 
 const sketch = () => {
   return ({ context, width, height,frame }) => {
-    context.fillStyle = 'white';
+    context.fillStyle = params.background;
     context.fillRect(0, 0, width, height);
 
     const cols = params.cols;
@@ -40,7 +42,7 @@ const sketch = () => {
     //margin de la cuadricula
     const margx = (width - gridw) * 0.5;
     const margy = (height - gridh) * 0.5;
- 
+    
     for (let index = 0; index < numCells; index++) {
       //en que fila y columna estoy
       const col = index % cols;
@@ -64,6 +66,7 @@ const sketch = () => {
       //Scale o line
       const scale = math.mapRange(n, -1, 1, params.scaleMin, params.scaleMax);
       context.save();
+      context.strokeStyle= params.color;
       context.translate(x , y );
       context.rotate(angle);
       //Line cap
@@ -87,6 +90,10 @@ const createPane = () => {
   folder.addInput(params, 'rows', { min: 1, max: 100, step: 1 });
   folder.addInput(params, 'scaleMin', { min: 1, max: 100});
   folder.addInput(params, 'scaleMax', { min: 1, max: 100});
+  folder = pane.addFolder({ title : 'Colors' });
+  
+  folder.addInput(params, 'background', { input: 'color' });
+  folder.addInput(params, 'color', { input: 'color' });
 
   folder = pane.addFolder({ title : 'Noise' });
   folder.addInput(params, 'freq', { min: -0.01, max: 0.1 });

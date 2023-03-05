@@ -15,7 +15,7 @@ const typeCanvas = document.createElement('canvas');
 const typeContext = typeCanvas.getContext('2d');
 
 const sketch = ({ context, width, height }) => {
-	const cell = 20;
+	const cell = 5;
 	const cols = Math.floor(width  / cell);
 	const rows = Math.floor(height / cell);
 	const numCells = cols * rows;
@@ -24,35 +24,13 @@ const sketch = ({ context, width, height }) => {
 	typeCanvas.height = rows;
 
 	return ({ context, width, height }) => {
-		typeContext.fillStyle = 'black';
+		typeContext.fillStyle = 'white';
 		typeContext.fillRect(0, 0, cols, rows);
+    typeContext.drawImage(img, 0, 0, cols, rows);
+    const typeData = typeContext.getImageData(0, 0, cols, rows).data;
 
 		fontSize = cols * 1.3;
-
-		typeContext.fillStyle = 'white';
-		typeContext.font = `${fontSize}px ${fontFamily}`;
-		typeContext.textBaseline = 'top';
-
-		const metrics = typeContext.measureText(text);
-		const mx = metrics.actualBoundingBoxLeft * -1;
-		const my = metrics.actualBoundingBoxAscent * -1;
-		const mw = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
-		const mh = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-
-		const tx = (cols - mw) * 0.5 - mx;
-		const ty = (rows - mh) * 0.5 - my;
-
-		typeContext.save();
-		typeContext.translate(tx, ty);
-
-		typeContext.beginPath();
-		typeContext.rect(mx, my, mw, mh);
-		typeContext.stroke();
-
-		typeContext.fillText(text, 0, 0);
-		typeContext.restore();
-
-		const typeData = typeContext.getImageData(0, 0, cols, rows).data;
+    
 
 		context.fillStyle = 'black';
 		context.fillRect(0, 0, width, height);
@@ -75,10 +53,10 @@ const sketch = ({ context, width, height }) => {
 			const g = typeData[i*4+1];
 			const b = typeData[i*4+2];
 			const a = typeData[i*4+3];	
-
-			const glyph = getGlyph(r);
-			context.font = `${cell * 2}px ${fontFamily}`;
-			if (Math.random() < 0.1) context.font = `${cell * 6}px ${fontFamily}`;
+      const num = r+g+b;
+			const glyph = getGlyph(num);
+			context.font = `${15 }px ${fontFamily}`;
+			//if (Math.random() < 0.1) context.font = `${cell * 6}px ${fontFamily}`;
 
 			//context.fillStyle = `rgba(${r},${g},${b}`;
 			context.fillStyle = 'white';
@@ -105,14 +83,9 @@ const sketch = ({ context, width, height }) => {
 };
 
 const getGlyph = (v) => {
-	if (v < 50) return '';
-	if (v < 100) return '.';
-	if (v < 150) return '-';
-	if (v < 200) return '¿';
-
-	const glyphs = '_= /'.split('');
-
-	return random.pick(glyphs);
+  const glyphs = '_= /'.split('');
+	if (v < 50) return random.pick(glyphs);;
+	return '';
 };
 
 
@@ -123,8 +96,22 @@ const onKeyUp = (e) => {
 
 document.addEventListener('keyup', onKeyUp);
 
+//const url = './compu.gif';
+const url = './github.png';
+
+const loadMeSomeImage = (url) => {
+	return new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = () => reject();
+		img.src = url;
+	});
+};
 
 const start = async () => {
+  img = await loadMeSomeImage(url);
+	console.log('image width', img.width);
+	console.log('this line');
 	manager = await canvasSketch(sketch, settings);
 };
 
