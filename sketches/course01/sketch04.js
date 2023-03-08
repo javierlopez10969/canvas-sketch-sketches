@@ -9,8 +9,8 @@ const settings = {
 };
 
 const params = {
-  cols: 20,
-  rows: 10,
+  cols: 55,
+  rows: 45,
   scaleMin: 1,
   scaleMax: 30,
   freq: 0.003,
